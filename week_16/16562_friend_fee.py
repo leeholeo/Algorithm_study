@@ -54,9 +54,12 @@
 #     print('Oh no')
 
 def find(a):
-    while is_friends[a]:
-        a = is_friends[a]
-    return a
+    if is_friends[a]:
+        parent_a = find(is_friends[a])
+        is_friends[a] = parent_a
+        return parent_a
+    else:
+        return a
 
 
 def union(a, b):
