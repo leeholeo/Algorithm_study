@@ -57,7 +57,7 @@ for i in range(len(palins)):
         palins = palins[i:]
         break
 
-    if palins[i] in primes:
+    if Eratosthenes[palins[i]]:
         print(palins[i])
 
 for pal in palins:
