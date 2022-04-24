@@ -1,4 +1,9 @@
+'''
+리스트 중간의 데이터를 지우거나 추가하는 경우에는 O(N)만큼의 시간이 소요되므로 주의해야 한다.
+'''
+
 # 1. KMP 응용, 시간초과
+# 문제의 원인은 다른 곳에 있었으므로, KMP를 사용해서 다시 한 번 풀어보기
 # import sys
 #
 #
@@ -58,42 +63,49 @@
 
 
 # 2. 단순 반복 체크 후 돌아오기, 시간초과
-# import sys
-#
-#
-# input = sys.stdin.readline
-# string = list(' '.join(input()).split())
-# len_string = len(string)
-# explosion_string = input().rstrip()
-# len_explosion = len(explosion_string)
-#
-# idx = 0
-# cnt = 0
-# while idx < len_string:
-#     if string[idx] == explosion_string[cnt]:
-#         idx += 1
-#         cnt += 1
-#         if cnt == len_explosion:
-#             cnt = 0
-#             string[idx-len_explosion : idx] = []
-#             idx -= 2*len_explosion - 1
-#             idx = max(idx, 0)
-#             len_string -= len_explosion
-#     else:
-#         if cnt:
-#             cnt = 0
-#         else:
-#             idx += 1
-#
+import sys
+import time
+
+str1 = 'A' * 100 ** 3
+str2 = 'A' + 'B'*34 + 'A'
+
+A_start_time = time.time()
+input = sys.stdin.readline
+string = list(' '.join(str1).split())
+len_string = len(string)
+explosion_string = str2.rstrip()
+len_explosion = len(explosion_string)
+
+idx = 0
+cnt = 0
+while idx < len_string:
+    if string[idx] == explosion_string[cnt]:
+        idx += 1
+        cnt += 1
+        if cnt == len_explosion:
+            cnt = 0
+            del string[idx-len_explosion : idx]
+            idx -= 2*len_explosion - 1
+            idx = max(idx, 0)
+            len_string -= len_explosion
+    else:
+        if cnt:
+            cnt = 0
+        else:
+            idx += 1
+
 # if string:
 #     print(*string, sep='')
 # else:
 #     print('FRULA')
 
+A_end_time = time.time()
+print(A_end_time - A_start_time)
 
 # 3. 승열 코드
-str1 = input()
-str2 = input()[::-1]
+B_start_time = time.time()
+# str1 = input()
+str2 = str2[::-1]
 stack = []
 len_str1 = len(str1)
 len_str2 = len(str2)
@@ -105,7 +117,10 @@ for i in range(len_str1-1, -1, -1):
 
 ans_str = ''.join(reversed(stack))
 
-if ans_str == '':
-    print("FRULA")
-else:
-    print(ans_str)
+# if ans_str == '':
+#     print("FRULA")
+# else:
+#     print(ans_str)
+
+B_end_time = time.time()
+print(B_end_time - B_start_time)
