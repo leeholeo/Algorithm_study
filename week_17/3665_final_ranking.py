@@ -14,18 +14,21 @@ for tc in range(TESTCASE):
     #     change_a, change_b = map(int, input().split())
     #     if change_a in edges[change_b]:
 
+    # 인접 행렬
     for idx in range(n-1):
         for rear_idx in range(idx+1, n):
             now = last_ranking[idx]
             rear = last_ranking[rear_idx]
             edges[now][rear] = True
 
+    # 순서 변경
     m = int(input())
     for _ in range(m):
         a, b = map(int, input().split())
         edges[a][b], edges[b][a] = edges[b][a], edges[a][b]
 
-    # priority가 없는지(앞에 설 사람의 수가 0인지) 빠르게 체크하기 위한 priorities list
+    # --- 입력부 종료
+    # priority가 없는지(앞에 설 사람의 수가 0인지) 빠르게 체크하기 위한 priorities list 생성 및 초기 queue 생성
     priorities = [0] * (n+1)
     nexts = []
     for col in range(1, n+1):
@@ -41,6 +44,7 @@ for tc in range(TESTCASE):
         print('?')
         continue
 
+    # Kahn Algorithm
     answer = []
     while len(nexts) == 1:
         now = nexts.pop()
@@ -53,6 +57,7 @@ for tc in range(TESTCASE):
             if priorities[col] == 0:
                 nexts.append(col)
 
+    # ?에 해당하는 경우가 존재할 수 없는가? 일단, 테케에는 존재하지 않는다.
     if len(nexts) >= 2:
         print('?')
     elif len(answer) != n:
