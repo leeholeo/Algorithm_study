@@ -78,10 +78,12 @@
 import sys
 
 
+# 초기 상태에서 해당 위치에 들어갈 수 있는 수 배열을 반환
 def check(crow, ccol):
     temp_possible = [True] * 10
     possible = []
 
+    # 가로, 세로, 네모 확인
     def check_row(row, col):
         for c in range(9):
             temp_possible[sudoku[row][c]] = False
@@ -107,7 +109,9 @@ def check(crow, ccol):
     return possible
 
 
+# dfs를 진행하며 해당 좌표에 해당 값이 들어갈 수 있는지를 확인
 def check_one(crow, ccol, num):
+    # 가로, 세로, 네모 확인
     def check_row(row, col, n):
         for c in range(9):
             if sudoku[row][c] == n:
@@ -135,7 +139,9 @@ def check_one(crow, ccol, num):
         return False
 
 
+# 빈 좌표를 순회하며 dfs를 실행
 def dfs(depth):
+    # 하나를 찾으면 전부 종료
     if depth == length:
         return True
     now_r, now_c = possible_idx[depth]
@@ -151,6 +157,7 @@ def dfs(depth):
 possible_idx = []
 possible_value = []
 sudoku = list(list(map(int, sys.stdin.readline().split())) for _ in range(9))
+# 빈 좌표와 그 좌표에 들어갈 수 있는 값 채우기
 for row in range(9):
     for col in range(9):
         if sudoku[row][col]:
