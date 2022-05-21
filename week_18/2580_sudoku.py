@@ -75,6 +75,10 @@
 #     for col in range(9):
 #         print(sudoku[row][col], end=' ')
 #     print()
+"""
+가로, 세로, 박스마다 가능한 값을 저장하는 방식이 더 좋음
+해당 코드는 한 좌표마다 특정 값이 가능한지를 보는 방식
+"""
 import sys
 
 
