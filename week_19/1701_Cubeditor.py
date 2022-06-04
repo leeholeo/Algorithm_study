@@ -4,10 +4,12 @@ import random
 import string as STR
 
 
-# string = sys.stdin.readline().rstrip()
-string = [random.choice(STR.ascii_lowercase) for _ in range(5000)]
-# string = [random.choice("12") for _ in range(5000)]
-string = ''.join(string)
+# string = sys.stdin.readline().rstrip()    # input
+string = [random.choice(STR.ascii_lowercase) for _ in range(5000)]  # input for test
+# string = [random.choice("12") for _ in range(5000)]   # input for test 2
+string = ''.join(string)    # input join for tests
+
+# # solve 1
 # start_time = time.time()
 # length = len(string)
 # max_length = 0
@@ -27,6 +29,7 @@ string = ''.join(string)
 # print(max_length)
 # print(end_time-start_time)  # 4.5초 정도 소요
 
+# # solve 2
 # dict with complicated key / nested dict
 # string = sys.stdin.readline().rstrip()
 start_time = time.time()
