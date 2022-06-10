@@ -123,3 +123,47 @@ dfs를 재귀호출하면 이전에 놓았던 축에서 반대축 목록을 탐�
 #         if dfs(i):res+=1
 # print(res)
 # print(5, time.time() - start_time)
+'''
+poo1maneoung님의 풀이
+일반적인 backtracking과 같으나, 짝수 번째 대각선관 홀수 번째 대각선은 서로 영향을 미칠 수 없다는 것을 이용,
+둘을 분리하여 두 번에 나누어 계산한다.
+따라서 depth가 1/2로 줄어들며, 연산 속도는 1/2 제곱만큼 빨라진다.
+'''
+# import sys
+#
+# input = sys.stdin.readline
+#
+# n = int(input())
+#
+# graph = [list(map(int, input().split())) for _ in range(n)]
+#
+# slash = [False] * (2 * n - 1)
+# backSlash = [False] * (2 * n - 1)
+#
+# color = [0, 0]
+#
+#
+# def dfs(depth, row, col, b_w):
+#     if col >= n:
+#         row += 1
+#         if col % 2 == 0:
+#             col = 1
+#         else:
+#             col = 0
+#
+#     if row == n:
+#         color[b_w] = max(color[b_w], depth)
+#         return
+#
+#     if graph[row][col] == 1 and not slash[row + col] and not backSlash[row - col + n - 1]:
+#         slash[row + col] = backSlash[row - col + n - 1] = True
+#         dfs(depth + 1, row, col + 2, b_w)
+#         slash[row + col] = backSlash[row - col + n - 1] = False
+#
+#     dfs(depth, row, col + 2, b_w)
+#
+#
+# dfs(0, 0, 0, 0)
+# dfs(0, 0, 1, 1)
+#
+# print(color[0] + color[1])
