@@ -173,9 +173,6 @@ class RotatingCalipers:
 # library end
 
 
-'''
-거리가 더 긴 쪽으로 front나 end가 가는 방식 추가 필요
-'''
 import sys
 
 
@@ -184,3 +181,23 @@ C = int(input())
 vertexes = [tuple(map(int, input().split())) for _ in range(C)]
 convex_hull = ConvexHull.endpoint_convex_hull(C, vertexes)
 print(RotatingCalipers.furthest_distance(convex_hull) ** 0.5)
+
+
+'''
+거리가 더 긴 쪽으로 front나 end가 가는 방식
+hwj8963님의 풀이
+https://www.acmicpc.net/source/44286511
+'''
+# i, j = 0, 1
+# d = d_sqr(i, j)
+# d_max = d
+# while j < len(hull):
+#     di = d_sqr(i + 1, j)
+#     dj = d_sqr(i, (j + 1) % len(hull))
+#     if dj >= di:
+#         d_max = max(d_max, dj)
+#         j += 1
+#     else:
+#         d_max = max(d_max, di)
+#         i += 1
+# print(math.sqrt(d_max))
