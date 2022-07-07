@@ -28,7 +28,6 @@
 #                     near_stores[i] = min(near_stores[i], next_weight) if near_stores.get(i) else next_weight
 #                     edges[store][i] = next_weight
 #                     heapq.heappush(heap, (next_weight, i))
-#     del heap
 #     return near_stores
 #
 #
