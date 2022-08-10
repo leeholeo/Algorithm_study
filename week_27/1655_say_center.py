@@ -22,17 +22,15 @@ for _ in range(N):
     if max_length > min_length:
         if max_heap[0] > now:
             heapq.heappush(min_heap, heapq._heapreplace_max(max_heap, now))
-            min_length += 1
         else:
             heapq.heappush(min_heap, now)
-            min_length += 1
+        min_length += 1
     else:
         if now > min_heap[0]:
             _heappush_max(max_heap, heapq.heapreplace(min_heap, now))
-            max_length += 1
         else:
             _heappush_max(max_heap, now)
-            max_length += 1
+        max_length += 1
     print(max_heap[0])
 
 
