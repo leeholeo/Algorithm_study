@@ -69,52 +69,74 @@ import sys
 from collections import defaultdict
 
 
-def dijkstra1(stores, store_limit):
-    for store in stores:
-        heap = []
-        for i in range(V):
-            if edges[store].get(i, store_limit+1) <= store_limit:
-                if is_store[i] is False:
-                    near_stores[i] = edges[store][i]
-                heapq.heappush(heap, (edges[store][i], i))
-        while heap:
-            weight, waypoint = heapq.heappop(heap)
-            if weight > edges[store][waypoint]:
-                continue
-            for i, weight_next in edges[waypoint].items():
-                next_weight = weight + weight_next
-                if next_weight > store_limit:
-                    continue
-                if next_weight <= edges[store].get(i, store_limit):
-                    if is_store[i] is False:
-                        near_stores[i] = min(next_weight, near_stores.get(i, next_weight))
-                    edges[store][i] = next_weight
-                    heapq.heappush(heap, (next_weight, i))
+# def dijkstra1(stores, store_limit):
+#     for store in stores:
+#         heap = []
+#         for i in range(V):
+#             if edges[store].get(i, store_limit+1) <= store_limit:
+#                 if is_store[i] is False:
+#                     near_stores[i] = edges[store][i]
+#                 heapq.heappush(heap, (edges[store][i], i))
+#         while heap:
+#             weight, waypoint = heapq.heappop(heap)
+#             if weight > edges[store][waypoint]:
+#                 continue
+#             for i, weight_next in edges[waypoint].items():
+#                 next_weight = weight + weight_next
+#                 if next_weight > store_limit:
+#                     continue
+#                 if next_weight <= edges[store].get(i, store_limit):
+#                     if is_store[i] is False:
+#                         near_stores[i] = min(next_weight, near_stores.get(i, next_weight))
+#                     edges[store][i] = next_weight
+#                     heapq.heappush(heap, (next_weight, i))
+#
+#
+# def dijkstra2(stores, store_limit):
+#     min_dist = float('inf')
+#     for store in stores:
+#         heap = []
+#         for i in range(V):
+#             if edges[store].get(i, store_limit + 1) <= store_limit:
+#                 if near_stores.get(i):
+#                     min_dist = min(min_dist, near_stores[i]+edges[store][i])
+#                 heapq.heappush(heap, (edges[store][i], i))
+#         while heap:
+#             weight, waypoint = heapq.heappop(heap)
+#             if weight > edges[store][waypoint]:
+#                 continue
+#             for i, weight_next in edges[waypoint].items():
+#                 next_weight = weight + weight_next
+#                 if next_weight > store_limit:
+#                     continue
+#                 if next_weight <= edges[store].get(i, store_limit):
+#                     if near_stores.get(i):
+#                         min_dist = min(min_dist, near_stores[i] + edges[store][i])
+#                     edges[store][i] = next_weight
+#                     heapq.heappush(heap, (next_weight, i))
+#         return min_dist
 
 
-def dijkstra2(stores, store_limit):
-    min_dist = float('inf')
-    for store in stores:
-        heap = []
-        for i in range(V):
-            if edges[store].get(i, store_limit + 1) <= store_limit:
-                if near_stores.get(i):
-                    min_dist = min(min_dist, near_stores[i]+edges[store][i])
-                heapq.heappush(heap, (edges[store][i], i))
-        while heap:
-            weight, waypoint = heapq.heappop(heap)
-            if weight > edges[store][waypoint]:
+import sys
+from collections import defaultdict
+import heapq
+
+
+def dijkstra(store, store_limit):
+    distances = [LIMIT] * V
+    heap = [(0, store)]
+    while heap:
+        weight, waypoint = heapq.heappop(heap)
+        if weight > distances[waypoint]:
+            continue
+        for i, weight_next in edges[waypoint].items():
+            next_weight = weight + weight_next
+            if next_weight > store_limit:
                 continue
-            for i, weight_next in edges[waypoint].items():
-                next_weight = weight + weight_next
-                if next_weight > store_limit:
-                    continue
-                if next_weight <= edges[store].get(i, store_limit):
-                    if near_stores.get(i):
-                        min_dist = min(min_dist, near_stores[i] + edges[store][i])
-                    edges[store][i] = next_weight
-                    heapq.heappush(heap, (next_weight, i))
-        return min_dist
+            if next_weight <= distances[i]:
+                distances[i] = next_weight
+                heapq.heappush(heap, (next_weight, i))
+    return distances
 
 
 def int_minus1(string):
@@ -122,25 +144,33 @@ def int_minus1(string):
 
 
 input = sys.stdin.readline
+LIMIT = 9876543210
 V, E = map(int, input().split())
 edges = defaultdict(dict)
 for _ in range(E):
     u, v, w = map(int_minus1, input().split())
     w += 1
-    # if u > v:
-    #     u, v = v, u
     edges[u][v] = min(edges[u][v], w) if edges[u].get(v) else w
     edges[v][u] = min(edges[v][u], w) if edges[v].get(u) else w
 _, mc_limit = map(int, input().split())
 mcdonalds = list(map(int_minus1, input().split()))
 _, star_limit = map(int, input().split())
 starbucks = list(map(int_minus1, input().split()))
+for mc in mcdonalds:
+    edges[-1][mc] = 0
+for star in starbucks:
+    edges[-2][star] = 0
 is_store = [False] * V
 for mc in mcdonalds:
     is_store[mc] = True
 for star in starbucks:
     is_store[star] = True
-near_stores = {}
-dijkstra1(mcdonalds, mc_limit)
-min_distance = dijkstra2(starbucks, star_limit)
+
+min_distance = LIMIT
+for i, distance in enumerate(map(sum, zip(dijkstra(-1, mc_limit), dijkstra(-2, star_limit)))):
+    if is_store[i]:
+        continue
+    min_distance = min(min_distance, distance)
+if min_distance == LIMIT:
+    min_distance = -1
 print(min_distance)
