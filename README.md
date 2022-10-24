@@ -14,6 +14,7 @@
 ### study(2022.06 ~ 진행중)
 - 6인 진행중, 1인 졸업
 - 알고리즘 문제풀이 및 주 1회 코드리뷰
+- 진행 중 [스터디용 백준 문제 선택기](https://github.com/leeholeo/SolvedacProblemSelector) 개발
 ```
 - Algorithm_study
   - SSAFY_study(문제풀이)
