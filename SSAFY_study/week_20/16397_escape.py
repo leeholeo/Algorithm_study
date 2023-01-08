@@ -1,5 +1,5 @@
 '''
-dp
+bfs
 '''
 N, T, G = map(int, input().split())
 LIMIT = 100000
